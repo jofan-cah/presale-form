@@ -2,60 +2,73 @@
 
 @section('title', 'Form Presale')
 
+{{-- Leaflet CSS - Uncomment jika perlu map lagi
 @push('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 @endpush
+--}}
 
 @section('content')
-<div class="min-h-screen py-12 px-4">
+<div class="min-h-screen py-12 px-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="max-w-2xl mx-auto">
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $eventName }}</h1>
-            <p class="text-gray-600 mb-8">{{ $eventDescription }}</p>
+        <!-- Header Card -->
+        <div class="bg-white rounded-t-lg shadow-md overflow-hidden mb-3">
+            <div class="border-l-8 border-purple-600 px-8 py-6">
+                <h1 class="text-3xl font-normal text-gray-800 mb-2">{{ $eventName }}</h1>
+                <p class="text-sm text-gray-600">{{ $eventDescription }}</p>
+            </div>
+        </div>
 
-            @if($errors->any())
-                <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                    <ul class="list-disc list-inside">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+        @if($errors->any())
+            <div class="mb-3 bg-red-50 border-l-4 border-red-400 text-red-700 px-6 py-4 rounded shadow-sm">
+                <p class="font-medium mb-2">Mohon perbaiki kesalahan berikut:</p>
+                <ul class="list-disc list-inside text-sm">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            <form method="POST" action="{{ route('form.submit') }}" id="presaleForm">
-                @csrf
+        <form method="POST" action="{{ route('form.submit') }}" id="presaleForm">
+            @csrf
 
-                <!-- Honeypot field untuk bot protection (hidden) -->
-                <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+            <!-- Honeypot field untuk bot protection (hidden) -->
+            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
 
-                <div class="mb-6">
-                    <label for="nama" class="block text-gray-700 font-medium mb-2">
-                        Nama Lengkap <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" name="nama" id="nama"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                           value="{{ old('nama') }}" required>
-                </div>
+            <!-- Question Cards -->
+            <div class="bg-white rounded-lg shadow-md mb-3 px-8 py-6">
+                <label for="nama" class="block text-gray-800 font-normal mb-2">
+                    Nama Lengkap <span class="text-red-500">*</span>
+                </label>
+                <input type="text" name="nama" id="nama"
+                       class="w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-purple-600 focus:outline-none focus:ring-0 transition-colors"
+                       placeholder="Jawaban Anda"
+                       value="{{ old('nama') }}" required>
+            </div>
 
-                <div class="mb-6">
-                    <label for="nomor_hp" class="block text-gray-700 font-medium mb-2">
-                        Nomor HP <span class="text-red-500">*</span>
-                    </label>
-                    <input type="tel" name="nomor_hp" id="nomor_hp"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                           value="{{ old('nomor_hp') }}" required>
-                </div>
+            <div class="bg-white rounded-lg shadow-md mb-3 px-8 py-6">
+                <label for="nomor_hp" class="block text-gray-800 font-normal mb-2">
+                    Nomor HP <span class="text-red-500">*</span>
+                </label>
+                <input type="tel" name="nomor_hp" id="nomor_hp"
+                       class="w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-purple-600 focus:outline-none focus:ring-0 transition-colors"
+                       placeholder="Jawaban Anda"
+                       value="{{ old('nomor_hp') }}" required>
+            </div>
 
-                <div class="mb-6">
-                    <label for="alamat" class="block text-gray-700 font-medium mb-2">
-                        Alamat <span class="text-red-500">*</span>
-                    </label>
-                    <textarea name="alamat" id="alamat" rows="4"
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              required>{{ old('alamat') }}</textarea>
-                </div>
+            <div class="bg-white rounded-lg shadow-md mb-3 px-8 py-6">
+                <label for="alamat" class="block text-gray-800 font-normal mb-2">
+                    Alamat <span class="text-red-500">*</span>
+                </label>
+                <textarea name="alamat" id="alamat" rows="3"
+                          class="w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-purple-600 focus:outline-none focus:ring-0 transition-colors resize-none"
+                          placeholder="Jawaban Anda"
+                          required>{{ old('alamat') }}</textarea>
+            </div>
 
+                {{-- Map section - Hidden (tidak digunakan untuk saat ini) --}}
+                {{-- Uncomment section ini jika perlu menggunakan koordinat lagi
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">
                         Lokasi (Latitude/Longitude)
@@ -80,16 +93,28 @@
                     </div>
                     <div id="map" class="h-64 rounded-lg border border-gray-300"></div>
                 </div>
+                --}}
 
-                <button type="submit"
-                        class="w-full bg-green-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-green-700 transition text-lg">
-                    Submit Form
-                </button>
-            </form>
+            <!-- Submit Button -->
+            <div class="bg-white rounded-lg shadow-md px-8 py-6">
+                <div class="flex justify-between items-center">
+                    <button type="submit"
+                            class="bg-purple-600 text-white font-medium py-2 px-8 rounded hover:bg-purple-700 transition shadow-md">
+                        Kirim
+                    </button>
+                    <p class="text-xs text-gray-500">* Wajib diisi</p>
+                </div>
+            </div>
+        </form>
+
+        <!-- Footer Text -->
+        <div class="text-center mt-6">
+            <p class="text-white text-xs opacity-75">Form ini dibuat untuk keperluan pendaftaran event</p>
         </div>
     </div>
 </div>
 
+{{-- Leaflet Map Scripts - Uncomment jika perlu map lagi
 @push('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -153,4 +178,5 @@ function getMyLocation() {
 }
 </script>
 @endpush
+--}}
 @endsection
