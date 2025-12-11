@@ -25,9 +25,9 @@
 
             <form method="POST" action="{{ route('form.submit') }}" id="presaleForm">
                 @csrf
-                @if($token)
-                    <input type="hidden" name="token" value="{{ $token }}">
-                @endif
+
+                <!-- Honeypot field untuk bot protection (hidden) -->
+                <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
 
                 <div class="mb-6">
                     <label for="nama" class="block text-gray-700 font-medium mb-2">

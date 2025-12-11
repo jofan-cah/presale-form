@@ -10,8 +10,13 @@ use App\Http\Controllers\SettingsController;
 
 // Public routes - Form
 Route::get('/', [FormController::class, 'show'])->name('form.index');
-Route::get('/form/{token?}', [FormController::class, 'show'])->name('form.show');
-Route::post('/form/submit', [FormController::class, 'store'])->name('form.submit');
+Route::get('/form', [FormController::class, 'show'])->name('form.show');
+
+// Form submission dengan rate limiting: 200 request per menit per IP
+Route::post('/form/submit', [FormController::class, 'store'])
+    ->middleware('throttle:200,1')
+    ->name('form.submit');
+
 Route::get('/success', [FormController::class, 'success'])->name('form.success');
 
 // Admin authentication routes

@@ -22,7 +22,7 @@ class QrController extends Controller
     public function generate()
     {
         $token = Str::random(32);
-        $url = route('form.show', $token);
+        $url = route('form.show');
 
         QrCode::create([
             'token' => $token,
