@@ -27,6 +27,7 @@ Route::post('/admin/logout', [LoginController::class, 'logout'])->name('logout')
 // Protected admin routes
 Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/submissions/{id}/toggle-follow-up', [DashboardController::class, 'toggleFollowUp'])->name('admin.submissions.toggle-follow-up');
 
     Route::get('/qrcodes', [QrController::class, 'index'])->name('admin.qrcodes');
     Route::post('/qrcodes/generate', [QrController::class, 'generate'])->name('admin.qrcodes.generate');

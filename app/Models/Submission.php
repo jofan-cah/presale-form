@@ -13,5 +13,11 @@ class Submission extends Model
         'latitude',
         'longitude',
         'qr_token',
+        'is_followed_up',
+        'follow_up_notes',
+    ];
+
+    protected $casts = [
+        'is_followed_up' => 'boolean',
     ];
 }
